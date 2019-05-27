@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ComicViewer.Views.ComicDetailPage"
+             xmlns:local="clr-namespace:ComicViewer.Views"
+             Title="{Binding WorkId}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="download" Clicked="ToolbarItem_Clicked"/>
+        <ToolbarItem Text="Clear" Clicked="ClearItem_Clicked"/>
+        <ToolbarItem Text="Update" Clicked="UpdateItem_Clicked"/>
+        <ToolbarItem Text="Fix" Clicked="FixItem_Clicked"/>
+        <ToolbarItem Text="Save" Clicked="SaveItem_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="Icon\save.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+        <AbsoluteLayout x:Name="abslayout" Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <ContentView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+                <local:CustomWebView x:Name="webView" IsVisible="False"/>
+            </ContentView>
+            <ContentView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                    <Image x:Name="BackGroundImage" Source="{Binding CoverImage}" Aspect="AspectFill" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Opacity="0.3"/>
+                </StackLayout>
+            </ContentView>
+            <ContentView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding Loading}">
+                <StackLayout>
+                    <SearchBar  
+                            Text="{Binding Key}"
+                            Placeholder="Search" 
+                            PlaceholderColor="Gray" 
+                            TextColor="Black"
+                            x:Name="searchBar"
+                            FontSize="Medium"
+                            TextChanged="searchBar_TextChanged"/>
+                    <AbsoluteLayout x:Name="abslayout2" Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <ContentView x:Name="suggestionView" Padding="0, 0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="false">
+                            <ListView x:Name="suggestionListView" BackgroundColor="White"
+                          SeparatorVisibility="None"
+                          HasUnevenRows="true"
+                          HeightRequest="200"
+                          ItemSelected="SuggestionListView_ItemSelected">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextCell Text="{Binding Text}"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </ContentView>
+                        <ContentView x:Name="tableView" Padding="0, 0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" SizeChanged="titleView_SizeChanged">
+                            <ScrollView>
+                                <StackLayout x:Name="ComicInfoView" VerticalOptions="FillAndExpand">
+                                    <StackLayout VerticalOptions="FillAndExpand" Margin="10">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="번역" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" VerticalOptions="CenterAndExpand"/>
+                                            <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding Lang}"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout x:Name ="titleView" Orientation="Horizontal">
+                                            <Label Text="제목" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
+                                            <Label x:Name ="titleLabel" Text="{Binding ComicTitle}" TextColor="Black">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"  NumberOfTapsRequired="1" />
+                                                </Label.GestureRecognizers>
+                                            </Label>
+                                            <local:EditorGrows x:Name ="titleEditor" FontSize="Default" TextColor="Black" HorizontalOptions="FillAndExpand" TextChanged="TitleEditor_TextChanged"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="작가" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding ComicArtist}" TextColor="Black" HorizontalOptions="Start" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="그룹" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding ComicGroup}" TextColor="Black" HorizontalOptions="Start" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="시리즈" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding ComicSeries}" TextColor="Black" HorizontalOptions="Start" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="캐릭터" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding ComicCharacter}" TextColor="Black" HorizontalOptions="Start" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="태그" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding ComicTag}" TextColor="Black" HorizontalOptions="Start" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="페이지 수" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding ComicPage}" TextColor="Black" HorizontalOptions="Start" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="언어" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding ComicLanguage}" TextColor="Black" HorizontalOptions="Start" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="유형" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding ComicType2}" TextColor="Black" HorizontalOptions="Start" VerticalOptions="FillAndExpand"/>
+                                            <Label Text="{Binding ComicType1}" TextColor="Black" HorizontalOptions="Start" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="ID" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding WorkId}" TextColor="Black" HorizontalOptions="Start" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+                                        <BoxView 
+                                            Opacity="0.1"
+                                            HeightRequest="1" 
+                                            BackgroundColor="Black" 
+                                            HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="게시한 날짜" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding UploadedDate}" TextColor="Black" HorizontalOptions="Start" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="수정한 날짜" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding ModifiedDate}" TextColor="Black" HorizontalOptions="Start" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="즐겨찾기" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" VerticalOptions="CenterAndExpand"/>
+                                            <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding IsFavorite}"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="제목고정" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" VerticalOptions="CenterAndExpand"/>
+                                            <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding IsTranslated}"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="숨기기" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" VerticalOptions="CenterAndExpand"/>
+                                            <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding IsHidden}"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="표지링크" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding CoverUrl}" TextColor="Black" HorizontalOptions="Start" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+                                        <BoxView Opacity="0.1" HeightRequest="1" BackgroundColor="Black" HorizontalOptions="FillAndExpand" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="이미지링크" TextColor="Black" WidthRequest="80" MinimumWidthRequest="80" HorizontalOptions="Start"/>
+                                            <Label Text="{Binding ImageUrl}" TextColor="Black" HorizontalOptions="Start" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </ScrollView>
+                        </ContentView>
+                    </AbsoluteLayout>
+                </StackLayout>
+            </ContentView>
+        </AbsoluteLayout>
+    </StackLayout>
+</ContentPage>

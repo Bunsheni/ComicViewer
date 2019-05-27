@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ComicViewer.Views.ModelsView"
+             Title="{Binding ModelTitle}"
+             >
+    <ContentPage.Content>
+        <StackLayout>
+            <SearchBar Text="{Binding Key}" TextChanged="Entry_TextChanged"/>
+            <ListView x:Name="modelListView" 
+                      ItemsSource="{Binding Models}"
+                      HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                      HasUnevenRows="true"
+                      SeparatorVisibility="Default"
+                      ItemTapped="comicListView_ItemTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout HorizontalOptions="FillAndExpand" Padding="3">
+                                <Label Text="{Binding Name}" FontSize="Small" HorizontalOptions="FillAndExpand" LineBreakMode="TailTruncation"/>
+                                <Label Text="{Binding Detail}" TextColor="Gray" FontSize="Micro" HorizontalOptions="FillAndExpand" LineBreakMode="TailTruncation"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

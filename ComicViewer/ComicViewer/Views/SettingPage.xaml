@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ComicViewer.SettingPage"
+              Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <AbsoluteLayout Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <TableView Intent="Form">
+                <TableRoot>
+                    <TableSection>
+                        <TextCell Text="{Binding ProgramLanguage}" Tapped="btnPopupButton_Clicked"/>
+                        <SwitchCell Text="{Binding NotificationsText}" On="{Binding NotificationsEnabled}"/>
+                        <SwitchCell Text="{Binding ImageHiddingText}" On="{Binding ImageHiddingEnabled}"/>
+                        <SwitchCell Text="{Binding HighImageResolutionText}" On="{Binding HighImageResolutionEnabled}"/>
+                        <EntryCell Text="{Binding MainDirectory}"></EntryCell>
+                    </TableSection>
+                </TableRoot>
+            </TableView>
+        </AbsoluteLayout>
+    </ContentPage.Content>    
+</ContentPage>

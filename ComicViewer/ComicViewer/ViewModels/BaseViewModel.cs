@@ -7,12 +7,28 @@ using Xamarin.Forms;
 
 using ComicViewer.Models;
 using ComicViewer.Services;
+using ComicViewer.Views;
 
 namespace ComicViewer.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
+        private MenuItemType _type;
+        public App RootApp { get => Application.Current as App; }
+        public MainPage RootPage { get => Application.Current.MainPage as MainPage; }
+        public CtSQLiteDb CtDb { get => RootPage.CtDb; }
+        public CtFileService FileService { get => RootPage.FileService; }
+
+        public BaseViewModel()
+        {
+
+        }
+
+        public BaseViewModel(MenuItemType id)
+        {
+            _type = id;
+            OnPropertyChanged("Title");
+        }
 
         bool isBusy = false;
         public bool IsBusy
@@ -21,11 +37,14 @@ namespace ComicViewer.ViewModels
             set { SetProperty(ref isBusy, value); }
         }
 
-        string title = string.Empty;
         public string Title
         {
-            get { return title; }
-            set { SetProperty(ref title, value); }
+            get { return HomeMenuItem.GetTitle(_type); }
+        }
+
+        public void UpdateLanguage()
+        {
+            OnPropertyChanged("Title");
         }
 
         protected bool SetProperty<T>(ref T backingStore, T value,
@@ -43,7 +62,7 @@ namespace ComicViewer.ViewModels
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             var changed = PropertyChanged;
             if (changed == null)

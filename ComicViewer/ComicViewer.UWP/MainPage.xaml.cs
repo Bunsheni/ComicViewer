@@ -19,8 +19,8 @@ namespace ComicViewer.UWP
     {
         public MainPage()
         {
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             this.InitializeComponent();
-
             LoadApplication(new ComicViewer.App());
         }
     }

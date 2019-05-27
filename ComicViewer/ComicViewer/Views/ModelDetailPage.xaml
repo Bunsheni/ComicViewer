@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ComicViewer.Views"
+             x:Class="ComicViewer.Views.ModelDetailPage"
+             Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <!--<ToolbarItem Text="구글번역" Clicked="GoogleItem_Clicked"/>
+        <ToolbarItem Text="Search" Clicked="SearchItem_Clicked"/>-->
+        <ToolbarItem Text="Clear" Clicked="ClearItem_Clicked"/>
+        <ToolbarItem Text="Load" Clicked="LoadItem_Clicked"/>
+        <ToolbarItem Text="Apply" Clicked="ApplyItem_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="Icon\apply.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+        <ToolbarItem Text="Save" Clicked="SaveItem_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="Icon\save.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <ProgressBar x:Name="progressBar" Progress="{Binding ProgressValue}" IsVisible="{Binding ProgressOn}"/>
+            <StackLayout x:Name="FieldBox">
+            </StackLayout>
+            <FlexLayout x:Name="flexBox" Padding="0" Margin="0"/>
+
+            <AbsoluteLayout>
+                <ContentView x:Name="webViewView" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="True">
+                    <local:CustomWebView x:Name="webView" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                </ContentView>
+                <ContentView x:Name="comicListViewView" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="False">
+                    <ListView x:Name="comicListView" 
+                            ItemsSource="{Binding Comics}"
+                            HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                            HasUnevenRows="true"
+                            ItemTapped="ComicListView_ItemTapped"   
+                            SelectionMode="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <local:ComicDetailViewCell/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ContentView>
+            </AbsoluteLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

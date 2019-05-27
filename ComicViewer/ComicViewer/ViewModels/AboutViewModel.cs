@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ComicViewer.Models;
+using System;
 using System.Windows.Input;
 
 using Xamarin.Forms;
@@ -7,10 +8,8 @@ namespace ComicViewer.ViewModels
 {
     public class AboutViewModel : BaseViewModel
     {
-        public AboutViewModel()
+        public AboutViewModel() : base(MenuItemType.About)
         {
-            Title = "About";
-
             OpenWebCommand = new Command(() => Device.OpenUri(new Uri("https://xamarin.com/platform")));
         }
 

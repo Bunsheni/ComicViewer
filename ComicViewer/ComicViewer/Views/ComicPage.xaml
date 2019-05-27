@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ComicViewer.Views"
+             x:Class="ComicViewer.Views.ComicPage"
+             Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <!--<ToolbarItem Text="Add" Clicked="AddItem_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="Icon\add.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>-->
+        <!--<ToolbarItem Text="Web" Clicked="Update_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="Icon\web.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>-->
+        <ToolbarItem x:Name="SelectionBox" Text= "SelectMode" Clicked="ClearSelect_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="Icon\nonselected.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+        <ToolbarItem Text="Refresh" Clicked="RefreshItem_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="Icon\refresh.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+        <ToolbarItem Text="Download" Clicked="Download_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="Icon\download.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+        <ToolbarItem Text="Sort" Clicked="Sort_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="Icon\filter.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+        <SearchBar x:Name="searchBar" Text="{Binding Key}" SearchButtonPressed="SearchBar_SearchButtonPressed" TextChanged="SearchBar_TextChanged"/>
+        <AbsoluteLayout x:Name="abslayout" Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <ContentView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+                <local:CustomWebView x:Name="webView" IsVisible="False"/>
+            </ContentView>
+            <ContentView x:Name="suggestionView" Padding="0, 0" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" IsVisible="false">
+                <ListView x:Name="suggestionListView" BackgroundColor="Transparent"
+                              CachingStrategy="RecycleElement"
+                              SeparatorVisibility="None"
+                              HasUnevenRows="true"
+                              ItemsSource="{Binding SuggestionItems}"
+                              ItemSelected="SuggestionListView_ItemSelected"
+                              IsVisible="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Text}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ContentView>
+            <ContentView x:Name="contentView" Padding="0, 0" IsVisible="true" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+                <StackLayout>
+                    <FlexLayout x:Name="searchBox" Wrap="Wrap" FlowDirection="LeftToRight" ChildAdded="SearchBox_ChildAdded" ChildRemoved="SearchBox_ChildAdded">
+                    </FlexLayout>
+                    <StackLayout x:Name="progressView" HeightRequest="{Binding ProgressBarHeight}" Margin="-3" IsVisible="{Binding ProgressBarIsVisible}">
+                        <ProgressBar x:Name="progressBar1" Progress="{Binding Progress1}" HeightRequest="4" Margin="0,-3" BackgroundColor="Transparent"/>
+                        <ProgressBar x:Name="progressBar2" Progress="{Binding Progress2}" HeightRequest="4" Margin="0,-3" BackgroundColor="Transparent"/>
+                    </StackLayout>
+                    <ListView x:Name="comicListView" 
+                                  ItemsSource="{Binding Comics}"
+                                  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                                  HasUnevenRows="true"
+                                  SelectionMode="None"
+                                  ItemTapped="ComicListView_ItemTapped"                                  
+                                  IsPullToRefreshEnabled="True"
+                                  Refreshing="ComicListView_Refreshing">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <local:ComicDetailViewCell/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </ContentView>
+        </AbsoluteLayout>
+    </StackLayout>
+</ContentPage>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ComicViewer.Services
+namespace ComicViewer
 {
     public interface IDataStore<T>
     {

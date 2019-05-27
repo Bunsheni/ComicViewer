@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ComicViewer.WebPage"
+              Title="{Binding Title}">
+    <AbsoluteLayout x:Name="abslayout" Padding="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <ContentView Padding="0, 0" IsVisible="true" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <WebView x:Name="webView" IsVisible="True" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+            </StackLayout>
+        </ContentView>
+        <ContentView x:Name="buttonView" Padding="0, 0" IsVisible="true" AbsoluteLayout.LayoutBounds="0,1,1,0.1" AbsoluteLayout.LayoutFlags="All">
+            <OnPlatform x:TypeArguments="View">
+                <On Platform="UWP">
+                    <StackLayout VerticalOptions="EndAndExpand" MinimumHeightRequest="50">
+                        <StackLayout Orientation="Horizontal" FlowDirection="RightToLeft" HorizontalOptions="EndAndExpand">
+                            <Label Text="close" HorizontalOptions="EndAndExpand" FontSize="Small" TextColor="White" BackgroundColor="Transparent" Margin="3">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="Button_Clicked" NumberOfTapsRequired="1"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                    </StackLayout>
+                </On>
+            </OnPlatform>
+        </ContentView>
+    </AbsoluteLayout>
+</ContentPage>

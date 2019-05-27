@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ComicViewer.Views"
+             x:Class="ComicViewer.Views.SearchPage"
+              Title="{Binding Title}">
+    <ContentPage.Content>
+        <TableView Intent="Settings">
+            <TableRoot>
+                <TableSection Title="언어">
+                    <SwitchCell Text="한국어" On="{Binding Korean}"/>
+                    <SwitchCell Text="English" On="{Binding English}"/>
+                    <SwitchCell Text="日本語" On="{Binding Japanese}"/>
+                </TableSection>
+                <TableSection Title="유형">
+                    <SwitchCell Text="일반" On="{Binding Normal}"/>
+                    <SwitchCell Text="성인" On="{Binding Adult}"/>
+                </TableSection>
+                <TableSection Title="기타">
+                    <SwitchCell Text="숨겨진 목록보기" On="{Binding Hidden}"/>
+                    <SwitchCell Text="오프라인 가능목록만 보기" On="{Binding Local}"/>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+    </ContentPage.Content>
+</ContentPage>
